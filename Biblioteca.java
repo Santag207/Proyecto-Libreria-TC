@@ -79,6 +79,11 @@ public class Biblioteca {
 
     // Método para enviar notificaciones por correo electrónico al devolver un libro
     public void enviarNotificacionDevolucion(Libro libro, Usuario usuario) {
+        if (usuario == null) {
+            System.out.println("El usuario no está inicializado");
+            return;
+        }
+
         final String username = "tucorreo@gmail.com"; // Tu dirección de correo
         final String password = "tucontraseña"; // Tu contraseña
 
