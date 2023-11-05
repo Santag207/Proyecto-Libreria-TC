@@ -1,8 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+import java.net.PasswordAuthentication;
+import java.net.*;
 
-class Biblioteca {
+
+public class Biblioteca {
     private List<Libro> inventario;
 
     public Biblioteca() {
@@ -29,7 +36,6 @@ class Biblioteca {
     }
 
     public void agregarLibro(Libro libro) {
-
         inventario.add(libro);
     }
 
@@ -57,6 +63,8 @@ class Biblioteca {
             if (libroBuscado.get(0).estaDisponible()) {
                 libroBuscado.get(0).setNlibros(libroBuscado.get(0).getNlibros() - 1); // Disminuir la cantidad de libros
                 System.out.println("Libro alquilado: " + titulo);
+                // Agregar la notificación por correo electrónico
+                enviarNotificacionDevolucion(libroBuscado.get(0), new Usuario("destinatario@example.com"));
             } else {
                 System.out.println("El libro no está disponible para alquiler.");
             }
@@ -66,6 +74,38 @@ class Biblioteca {
 
         if (libroBuscado.isEmpty() || !libroBuscado.get(0).estaDisponible()) {
             System.out.println("No hay libros disponibles para alquilar.");
+        }
+    }
+
+    // Método para enviar notificaciones por correo electrónico al devolver un libro
+    public void enviarNotificacionDevolucion(Libro libro, Usuario usuario) {
+        final String username = "tucorreo@gmail.com"; // Tu dirección de correo
+        final String password = "tucontraseña"; // Tu contraseña
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com"); // Puedes cambiar el host si usas otro proveedor
+        props.put("mail.smtp.port", "587"); // Puerto SMTP
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(usuario.getCorreo()));
+            message.setSubject("Notificación de devolución de libro");
+            message.setText("El libro " + libro.getTitulo() + " ha sido devuelto. Está disponible para préstamo.");
+
+            Transport.send(message);
+            System.out.println("Correo enviado correctamente");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

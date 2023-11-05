@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class Menu {
+public class Menu {
     private Biblioteca biblioteca;
 
     public Menu() {
@@ -26,7 +26,7 @@ class Menu {
                     System.out.print("Ingrese el título a buscar: ");
                     String titulo = scanner.nextLine();
                     biblioteca.buscarLibroPorTitulo(titulo).forEach(libro -> {
-                        System.out.println(libro.getTitulo() + " - " + libro.getAutor() + " - "+libro.getClasificacion());
+                        System.out.println(libro.getTitulo() + " - " + libro.getAutor() + " - " + libro.getClasificacion());
                     });
                     break;
                 case 2:
@@ -41,7 +41,6 @@ class Menu {
                     String tituloAlquiler = scanner.nextLine();
                     biblioteca.alquilarLibro(tituloAlquiler);
                     break;
-
                 case 4:
                     agregarLibro();
                     break;
@@ -60,14 +59,14 @@ class Menu {
         System.out.println("Ingrese el autor del libro:");
         String autor = scanner.nextLine();
 
-        System.out.println("Ingrese el tema del libro:");
-        String tema = scanner.nextLine();
+        System.out.println("Ingrese la clasificación del libro:");
+        String clasificacion = scanner.nextLine();
 
-        System.out.println("Ingrese el número de libros:");
+        System.out.println("Ingrese la cantidad de libros:");
         int cantidad = scanner.nextInt();
         scanner.nextLine();
 
-        Libro libro = new Libro(titulo, autor, tema, cantidad);
+        Libro libro = new Libro(titulo, autor, clasificacion, cantidad);
         biblioteca.agregarLibro(libro);
         System.out.println("Libro agregado con éxito a la biblioteca.");
     }
