@@ -12,8 +12,8 @@ class Menu {
         int opcion;
         do {
             System.out.println("Menú:");
-            System.out.println("1. Buscar por título");
-            System.out.println("2. Buscar por clasificación");
+            System.out.println("1. Buscar libro por título");
+            System.out.println("2. Buscar libro por clasificación");
             System.out.println("3. Alquilar libro");
             System.out.println("4. Agregar libro");
             System.out.println("0. Salir");
