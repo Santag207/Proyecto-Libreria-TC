@@ -55,13 +55,17 @@ class Biblioteca {
         List<Libro> libroBuscado = buscarLibroPorTitulo(titulo);
         if (!libroBuscado.isEmpty()) {
             if (libroBuscado.get(0).estaDisponible()) {
-                libroBuscado.get(0).setEstadoAlquiler(false);
+                libroBuscado.get(0).setNlibros(libroBuscado.get(0).getNlibros() - 1); // Disminuir la cantidad de libros
                 System.out.println("Libro alquilado: " + titulo);
             } else {
                 System.out.println("El libro no está disponible para alquiler.");
             }
         } else {
             System.out.println("Libro no encontrado");
+        }
+
+        if (libroBuscado.isEmpty() || !libroBuscado.get(0).estaDisponible()) {
+            System.out.println("No hay libros disponibles para alquilar.");
         }
     }
 }

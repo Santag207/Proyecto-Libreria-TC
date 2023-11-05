@@ -52,12 +52,13 @@ class Libro {
 
         this.clasificacion = clasificacion;
     }
-    public int getNlibros(int Nlibros){
+    public int getNlibros(){
 
         return Nlibros;
     }
-    public void setNlibrost(int Nlibros){
+    public void setNlibros(int Nlibros){
 
         this.Nlibros = Nlibros;
+        this.enAlquiler = Nlibros > 0;
     }
 }
