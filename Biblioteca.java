@@ -64,7 +64,7 @@ public class Biblioteca {
                 libroBuscado.get(0).setNlibros(libroBuscado.get(0).getNlibros() - 1); // Disminuir la cantidad de libros
                 System.out.println("Libro alquilado: " + titulo);
                 // Agregar la notificación por correo electrónico
-                enviarNotificacionDevolucion(libroBuscado.get(0), new Usuario("destinatario@example.com"));
+                enviarNotificacionDevolucion(libroBuscado.get(0), new Usuario("usuario@javeriana.edu.co"));
             } else {
                 System.out.println("El libro no está disponible para alquiler.");
             }
@@ -84,13 +84,13 @@ public class Biblioteca {
             return;
         }
 
-        final String username = "tucorreo@gmail.com"; // Tu dirección de correo
-        final String password = "tucontraseña"; // Tu contraseña
+        final String username = "usuario@javeriana.edu.co"; // Tu dirección de correo
+        final String password = "Contraseña123"; // Tu contraseña
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com"); // Puedes cambiar el host si usas otro proveedor
+        props.put("mail.smtp.host", "smtp.javeriana.edu.co"); // Host del proveedor
         props.put("mail.smtp.port", "587"); // Puerto SMTP
 
         Session session = Session.getInstance(props, new Authenticator() {
