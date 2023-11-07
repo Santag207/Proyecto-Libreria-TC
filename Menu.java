@@ -14,8 +14,9 @@ public class Menu {
             System.out.println("Menú:");
             System.out.println("1. Buscar libro por título");
             System.out.println("2. Buscar libro por clasificación");
-            System.out.println("3. Alquilar libro");
-            System.out.println("4. Agregar libro");
+            System.out.println("3. Buscar libro por Autor");
+            System.out.println("4. Alquilar libro");
+            System.out.println("5. Agregar libro");
             System.out.println("0. Salir");
             System.out.print("Ingrese la opción: ");
             opcion = scanner.nextInt();
@@ -37,11 +38,18 @@ public class Menu {
                     });
                     break;
                 case 3:
+                    System.out.print("Ingrese Autor a buscar: ");
+                    String autor = scanner.nextLine();
+                    biblioteca.buscarPorAutor(autor).forEach(libro -> {
+                        System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo());
+                    });
+                    break;
+                    case 4:
                     System.out.print("Ingrese el título del libro a alquilar: ");
                     String tituloAlquiler = scanner.nextLine();
                     biblioteca.alquilarLibro(tituloAlquiler);
                     break;
-                case 4:
+                case 5:
                     agregarLibro();
                     break;
                 default:
