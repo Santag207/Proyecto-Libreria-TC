@@ -12,6 +12,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         int opcion, opcionAux;
         do {
+            limpiarPantalla();
             System.out.println("Menú:");
             System.out.println("1. Busqueda Manual");
             System.out.println("2. Buscar libro por título");
@@ -26,6 +27,7 @@ public class Menu {
 
             switch (opcion) {
                 case 1:
+                    limpiarPantalla();
                     System.out.println("¿Que deseas buscar de manera manual?");
                     System.out.println("1. Buscar libro por título");
                     System.out.println("2. Buscar libro por clasificación");
@@ -35,46 +37,57 @@ public class Menu {
                     scanner.nextLine();
                     switch (opcionAux) {
                         case 0:
+                            limpiarPantalla();
                             System.out.println("Saliendo del menú de búsqueda manual");
                             break;
                         case 1:
+                            limpiarPantalla();
                             System.out.print("Ingrese el título que desea buscar: ");
                             String tituloBusqueda = scanner.nextLine();
                             biblioteca.buscarLibroPorTitulo(tituloBusqueda);
                             break;
                         case 2:
+                            limpiarPantalla();
                             System.out.print("Ingrese la clasificación que desdea buscar: ");
                             String clasificacionBusqueda = scanner.nextLine();
                             biblioteca.buscarPorClasificacion(clasificacionBusqueda);
                             break;
                         case 3:
+                            limpiarPantalla();
                             System.out.print("Ingrese el autor a buscar: ");
                             String autorBusqueda = scanner.nextLine();
                             biblioteca.buscarPorAutor(autorBusqueda);
                             break;
                         default:
+                            limpiarPantalla();
                             System.out.println("Opción no válida.");
                             break;
                     }
                     break;
                 case 2:
+                    limpiarPantalla();
                     buscarPorTitulo();
                     break;
                 case 3:
+                    limpiarPantalla();
                     mostrarClasificaciones();
                     break;
                 case 4:
+                    limpiarPantalla();
                     mostrarAutores();
                     break;
                 case 5:
+                    limpiarPantalla();
                     System.out.print("Ingrese el título del libro a alquilar:");
                     String tituloAlquiler = scanner.nextLine();
                     biblioteca.alquilarLibro(tituloAlquiler);
                     break;
                 case 6:
+                    limpiarPantalla();
                     agregarLibro();
                     break;
                 default:
+                    limpiarPantalla();
                     System.out.println("Opción no válida.");
                     break;
             }
@@ -195,4 +208,10 @@ public class Menu {
             System.out.println("No hay libros disponibles en la biblioteca.");
         }
     }
+    public void limpiarPantalla() {
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
+    }
+
 }
