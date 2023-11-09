@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -31,21 +32,13 @@ public class Menu {
                     });
                     break;
                 case 2:
-                    System.out.print("Ingrese la clasificación a buscar: ");
-                    String clasificacion = scanner.nextLine();
-                    biblioteca.buscarPorClasificacion(clasificacion).forEach(libro -> {
-                        System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo());
-                    });
+                    mostrarClasificaciones();
                     break;
                 case 3:
-                    System.out.print("Ingrese Autor a buscar: ");
-                    String autor = scanner.nextLine();
-                    biblioteca.buscarPorAutor(autor).forEach(libro -> {
-                        System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo());
-                    });
+                    mostrarAutores();
                     break;
-                    case 4:
-                    System.out.print("Ingrese el título del libro a alquilar: ");
+                case 4:
+                    System.out.print("Ingrese el título del libro a alquilar:");
                     String tituloAlquiler = scanner.nextLine();
                     biblioteca.alquilarLibro(tituloAlquiler);
                     break;
@@ -77,5 +70,72 @@ public class Menu {
         Libro libro = new Libro(titulo, autor, clasificacion, cantidad);
         biblioteca.agregarLibro(libro);
         System.out.println("Libro agregado con éxito a la biblioteca.");
+    }
+
+    public void mostrarClasificaciones() {
+        // Mostrar la lista de las clasificaciones
+        System.out.println("Clasificaciones:");
+        System.out.println("1. Programación");
+        System.out.println("2. Ficción");
+        System.out.println("3. Fantasía");
+        System.out.println("4. Ciencia ficción");
+        System.out.println("5. Misterio");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el número de la clasificación a buscar: ");
+        int numeroClasificacion = scanner.nextInt();
+        scanner.nextLine();
+
+        String clasificacionElegida = obtenerClasificacionPorNumero(numeroClasificacion);
+        if (clasificacionElegida != null) {
+            biblioteca.buscarPorClasificacion(clasificacionElegida).forEach(libro -> {
+                System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo());
+            });
+        } else {
+            System.out.println("Opción de clasificación no válida.");
+        }
+    }
+
+    public String obtenerClasificacionPorNumero(int numeroClasificacion) {
+        switch (numeroClasificacion) {
+            // Clasificaciones
+            case 1:
+                return "Programación";
+            case 2:
+                return "Ficción";
+            case 3:
+                return "Fantasía";
+            case 4:
+                return "Ciencia ficción";
+            case 5:
+                return "Misterio";
+            default:
+                return null;
+        }
+    }
+
+    public void mostrarAutores() {
+        List<String> autoresUnicos = biblioteca.obtenerAutoresUnicos();
+
+        // Mostrar los autores con un número asociado
+        System.out.println("Autores:");
+        for (int i = 0; i < autoresUnicos.size(); i++) {
+            System.out.println((i + 1) + ". " + autoresUnicos.get(i));
+        }
+
+        // Usuario elije el autor
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el número del autor a buscar: ");
+        int numeroAutor = scanner.nextInt();
+        scanner.nextLine();
+
+        if (numeroAutor > 0 && numeroAutor <= autoresUnicos.size()) {
+            String autorElegido = autoresUnicos.get(numeroAutor - 1);
+            biblioteca.buscarPorAutor(autorElegido).forEach(libro -> {
+                System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo());
+            });
+        } else {
+            System.out.println("Opción de autor no válida.");
+        }
     }
 }

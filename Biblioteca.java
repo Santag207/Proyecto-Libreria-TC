@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -26,7 +28,7 @@ public class Biblioteca {
         inventario.add(new Libro("The Girl with the Dragon Tattoo", "Stieg Larsson", "Misterio", 3));
         inventario.add(new Libro("Gone Girl", "Gillian Flynn", "Misterio", 6));
         inventario.add(new Libro("The Silent Patient", "Alex Michaelides", "Misterio", 4));
-        // Añadir más libros...
+        // Libros a añadir manualmente.......
     }
 
     public void agregarLibro(Libro libro) {
@@ -67,5 +69,16 @@ public class Biblioteca {
         if (libroBuscado.isEmpty() || !libroBuscado.get(0).estaDisponible()) {
             System.out.println("No hay libros disponibles para alquilar.");
         }
+    }
+    public List<String> obtenerAutoresUnicos() {
+        Set<String> autoresSet = new HashSet<>(); // Utilizamos un conjunto para asegurar autores únicos
+
+        // Obtener autores únicos a partir del inventario de libros
+        for (Libro libro : inventario) {
+            autoresSet.add(libro.getAutor());
+        }
+
+        // Convertir el conjunto de autores únicos a una lista y devolverla
+        return new ArrayList<>(autoresSet);
     }
 }
