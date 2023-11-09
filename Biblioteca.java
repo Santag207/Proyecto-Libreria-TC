@@ -56,20 +56,23 @@ public class Biblioteca {
     public void alquilarLibro(String titulo) {
         List<Libro> libroBuscado = buscarLibroPorTitulo(titulo);
         if (!libroBuscado.isEmpty()) {
-            if (libroBuscado.get(0).estaDisponible()) {
-                libroBuscado.get(0).setNlibros(libroBuscado.get(0).getNlibros() - 1); // Disminuir la cantidad de libros
-                System.out.println("Libro alquilado: " + titulo);
+            Libro libro = libroBuscado.get(0);
+            if (libro.estaDisponible()) {
+                int existencias = libro.getNlibros();
+                if (existencias > 0) {
+                    libro.setNlibros(existencias - 1); // Disminuir la cantidad de libros
+                    System.out.println("Libro alquilado: " + titulo);
+                } else {
+                    System.out.println("El libro no está disponible para alquiler.");
+                }
             } else {
-                System.out.println("El libro no está disponible para alquiler.");
+                System.out.println("El libro ya está alquilado.");
             }
         } else {
             System.out.println("Libro no encontrado");
         }
-
-        if (libroBuscado.isEmpty() || !libroBuscado.get(0).estaDisponible()) {
-            System.out.println("No hay libros disponibles para alquilar.");
-        }
     }
+
     public List<String> obtenerAutoresUnicos() {
         Set<String> autoresSet = new HashSet<>(); // Utilizamos un conjunto para asegurar autores únicos
 
@@ -80,5 +83,9 @@ public class Biblioteca {
 
         // Convertir el conjunto de autores únicos a una lista y devolverla
         return new ArrayList<>(autoresSet);
+    }
+
+    public List<Libro> obtenerTodosLosLibros() {
+        return new ArrayList<>(inventario);
     }
 }

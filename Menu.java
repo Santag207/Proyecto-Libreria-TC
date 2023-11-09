@@ -10,14 +10,15 @@ public class Menu {
 
     public void mostrarMenu() {
         Scanner scanner = new Scanner(System.in);
-        int opcion;
+        int opcion, opcionAux;
         do {
             System.out.println("Menú:");
-            System.out.println("1. Buscar libro por título");
-            System.out.println("2. Buscar libro por clasificación");
-            System.out.println("3. Buscar libro por Autor");
-            System.out.println("4. Alquilar libro");
-            System.out.println("5. Agregar libro");
+            System.out.println("1. Busqueda Manual");
+            System.out.println("2. Buscar libro por título");
+            System.out.println("3. Buscar libro por clasificación");
+            System.out.println("4. Buscar libro por Autor");
+            System.out.println("5. Alquilar libro");
+            System.out.println("6. Agregar libro");
             System.out.println("0. Salir");
             System.out.print("Ingrese la opción: ");
             opcion = scanner.nextInt();
@@ -25,24 +26,52 @@ public class Menu {
 
             switch (opcion) {
                 case 1:
-                    System.out.print("Ingrese el título a buscar: ");
-                    String titulo = scanner.nextLine();
-                    biblioteca.buscarLibroPorTitulo(titulo).forEach(libro -> {
-                        System.out.println(libro.getTitulo() + " - " + libro.getAutor() + " - " + libro.getClasificacion());
-                    });
+                    System.out.println("¿Que deseas buscar de manera manual?");
+                    System.out.println("1. Buscar libro por título");
+                    System.out.println("2. Buscar libro por clasificación");
+                    System.out.println("3. Buscar libro por Autor");
+                    System.out.println("0. Salir");
+                    opcionAux = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (opcionAux) {
+                        case 0:
+                            System.out.println("Saliendo del menú de búsqueda manual");
+                            break;
+                        case 1:
+                            System.out.print("Ingrese el título que desea buscar: ");
+                            String tituloBusqueda = scanner.nextLine();
+                            biblioteca.buscarLibroPorTitulo(tituloBusqueda);
+                            break;
+                        case 2:
+                            System.out.print("Ingrese la clasificación que desdea buscar: ");
+                            String clasificacionBusqueda = scanner.nextLine();
+                            biblioteca.buscarPorClasificacion(clasificacionBusqueda);
+                            break;
+                        case 3:
+                            System.out.print("Ingrese el autor a buscar: ");
+                            String autorBusqueda = scanner.nextLine();
+                            biblioteca.buscarPorAutor(autorBusqueda);
+                            break;
+                        default:
+                            System.out.println("Opción no válida.");
+                            break;
+                    }
                     break;
                 case 2:
-                    mostrarClasificaciones();
+                    buscarPorTitulo();
                     break;
                 case 3:
-                    mostrarAutores();
+                    mostrarClasificaciones();
                     break;
                 case 4:
+                    mostrarAutores();
+                    break;
+                case 5:
                     System.out.print("Ingrese el título del libro a alquilar:");
                     String tituloAlquiler = scanner.nextLine();
                     biblioteca.alquilarLibro(tituloAlquiler);
                     break;
-                case 5:
+                case 6:
                     agregarLibro();
                     break;
                 default:
@@ -89,7 +118,7 @@ public class Menu {
         String clasificacionElegida = obtenerClasificacionPorNumero(numeroClasificacion);
         if (clasificacionElegida != null) {
             biblioteca.buscarPorClasificacion(clasificacionElegida).forEach(libro -> {
-                System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo());
+                System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo() + " - "  + libro.getNlibros());
             });
         } else {
             System.out.println("Opción de clasificación no válida.");
@@ -132,10 +161,38 @@ public class Menu {
         if (numeroAutor > 0 && numeroAutor <= autoresUnicos.size()) {
             String autorElegido = autoresUnicos.get(numeroAutor - 1);
             biblioteca.buscarPorAutor(autorElegido).forEach(libro -> {
-                System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo());
+                System.out.println(libro.getClasificacion() + " - " + libro.getAutor() + " - " + libro.getTitulo() + " - "  + libro.getNlibros() );
             });
         } else {
             System.out.println("Opción de autor no válida.");
+        }
+    }
+
+    public void buscarPorTitulo() {
+        List<Libro> todosLosLibros = biblioteca.obtenerTodosLosLibros();
+        if (!todosLosLibros.isEmpty()) {
+            System.out.println("Libros disponibles:");
+            for (int i = 0; i < todosLosLibros.size(); i++) {
+                Libro libro = todosLosLibros.get(i);
+                System.out.println((i + 1) + ". " + libro.getTitulo() + " - " + libro.getAutor() + " - " + libro.getClasificacion() + " - "  + libro.getNlibros());
+            }
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Ingrese el número del libro a ver detalles: ");
+            int numeroLibro = scanner.nextInt();
+            scanner.nextLine();
+
+            if (numeroLibro > 0 && numeroLibro <= todosLosLibros.size()) {
+                Libro libroElegido = todosLosLibros.get(numeroLibro - 1);
+                System.out.println("Detalles del libro seleccionado:");
+                System.out.println("Título: " + libroElegido.getTitulo());
+                System.out.println("Autor: " + libroElegido.getAutor());
+                System.out.println("Clasificación: " + libroElegido.getClasificacion());
+            } else {
+                System.out.println("Número de libro no válido.");
+            }
+        } else {
+            System.out.println("No hay libros disponibles en la biblioteca.");
         }
     }
 }
